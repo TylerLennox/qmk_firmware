@@ -18,12 +18,22 @@ enum custom_keycodes {
 };
 
 enum {
-  TD_CAPS = 0
+  TD_CAPS = 0,
+  TD_BRC = 1,
+  TD_MP = 2,
+  TD_SLSH = 3,
+  TD_ESTD = 4,
+  TD_BSDL = 5
 };
 
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
+  [TD_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
+  [TD_BRC]  = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+  [TD_MP]  = ACTION_TAP_DANCE_DOUBLE(KC_MINS, KC_EQL),
+  [TD_SLSH]  = ACTION_TAP_DANCE_DOUBLE(KC_SLSH, KC_BSLS),
+  [TD_ESTD]  = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_GRV),
+  [TD_BSDL]  = ACTION_TAP_DANCE_DOUBLE(KC_BSPC, KC_DEL)
 };
 
 
@@ -31,11 +41,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
      /* QWERTY // Default layer - occasionally 'swaps' with Gaming layer
  * .-----------------------------------------------------.                      .-----------------------------------------------------.
- * | Esc    | 1      | 2      | 3      | 4      | 5      |                      | 6      | 7      | 8      | 9      | 0      | Raise  |
+ * | Esc `  | 1      | 2      | 3      | 4      | 5      |                      | 6      | 7      | 8      | 9      | 0      | - +    |
  * |--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+-----------------|
- * | TAB    | Q      | W      | E      | R      | T      |                      | Y      | U      | I      | O      | P      | Lower  |
+ * | TAB    | Q      | W      | E      | R      | T      |                      | Y      | U      | I      | O      | P      | []     |
  * |--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+-----------------+--------|
- * | Shift  | A      | S      | D      | F      | G      |                      | H      | J      | K   ()   | L      | ;    | DEL    |
+ * | Shift  | A      | S      | D      | F      | G      |                      | H      | J      | K      | L      | ;      | ""     |
  * |--------+--------+--------+--------+--------+--------+--------.    .--------+--------+--------+--------------------------+--------|
  * | Cntrl  | Z      | X      | C      | V      | B      | Mute   |    | Play   | N      | M      | ,      | .      | /      | NUM    |
  * '-----------------------------------+--------+--------+--------|    |--------+--------+--------+-----------------------------------'
@@ -45,15 +55,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_QWERTY] = LAYOUT(
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
-     KC_ESC,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  KC_MINS,
+  TD(TD_ESTD), KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                KC_6,    KC_7,    KC_8,    KC_9,    KC_0,  TD(TD_MP),
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   KC_LBRC,
+     KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                                KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  TD(TD_BRC),
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-TD(TD_CAPS),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN,  KC_QUOT,
+  TD(TD_CAPS), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                                KC_H,    KC_J,    KC_K,    KC_L,  KC_SCLN,  KC_QUOT,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_LCTL,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,         KC_MPLY,   KC_N,    KC_M,  KC_COMM, KC_DOT,  KC_SLSH, TO(_NUMPAD),
+     KC_LCTL,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,         KC_MPLY,   KC_N,    KC_M,  KC_COMM, KC_DOT, TD(TD_SLSH), TO(_NUMPAD),
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    KC_LGUI, KC_LALT,  KC_ENT,                    KC_SPC, KC_BSPC, TO(_FUNC)
+                                    KC_LGUI, KC_LALT,  KC_ENT,                    KC_SPC,TD(TD_BSDL), TO(_FUNC)
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   ),
 
@@ -63,7 +73,7 @@ TD(TD_CAPS),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                        
  * |--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+--------+-----------------|
  * | TAB    | Q      | W      | E      | R      | T      |                      | Y      | U      | I      | O      | P      | Lower  |
  * |--------+--------+--------+--------+--------+--------|                      |--------+--------+--------+-----------------+--------|
- * | Shift  | A      | S      | D      | F      | G      |                      | H      | J      | K      | L      | ;    | DEL    |
+ * | Shift  | A      | S      | D      | F      | G      |                      | H      | J      | K      | L      | ;      | DEL    |
  * |--------+--------+--------+--------+--------+--------+--------.    .--------+--------+--------+--------------------------+--------|
  * | Cntrl  | Z      | X      | C      | V      | B      | Mute   |    | Play   | N      | M      | ,      | .      | /      | NUM    |
  * '-----------------------------------+--------+--------+--------|    |--------+--------+--------+-----------------------------------'
@@ -105,7 +115,7 @@ TD(TD_CAPS),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                        
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      KC_TAB,   KC_Q,    KC_W,   KC_UP,   KC_F11,  KC_F12,                             KC_PGUP, _______,  KC_UP,  _______, KC_INS,  KC_RBRC,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-  TD(TD_CAPS), KC_A,   KC_LEFT, KC_DOWN, KC_RIGHT, KC_G,                              KC_PGDN, KC_LEFT, KC_DOWN, KC_RIGHT,_______, KC_HOME,
+  TD(TD_CAPS), KC_A,   KC_S, KC_DOWN, KC_RIGHT, KC_G,                              KC_PGDN, KC_LEFT, KC_DOWN, KC_RIGHT,_______, KC_HOME,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      KC_LCTL,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_MUTE,         KC_MPLY,   KC_N,    KC_M,  KC_COMM, KC_DOT,  KC_BSLS,  KC_END,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
