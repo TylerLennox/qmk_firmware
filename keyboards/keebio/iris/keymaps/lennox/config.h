@@ -29,3 +29,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_SPLIT 2
 
 #define TAPPING_TERM 175
+#define TAPPING_TOGGLE 3
